@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#875BD1E0">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1000dp"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_service_requests"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/service_type"
+            android:layout_marginTop="20dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgServiceType"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:text="@string/renovation"
+                android:layout_height="match_parent"
+                android:layout_width="120dp"/>
+            <RadioButton
+                android:text="@string/maintenance"
+                android:layout_height="match_parent"
+                android:layout_width="120dp"/>
+
+            <RadioButton
+                android:text="@string/water_treatment"
+                android:layout_height="match_parent"
+                android:layout_width="120dp"/>
+
+        </RadioGroup>
+
+        <!-- Description -->
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:hint="@string/describe_the_service_you_need"
+            android:inputType="textMultiLine"
+            android:gravity="top"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            <!-- Address -->
+            <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:hint="@string/enter_your_property_address" />
+
+            <!-- Urgency -->
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/locicon" />
+
+            </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/urgency"
+            android:layout_marginTop="16dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgUrgency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton android:text="@string/low"
+                android:layout_width="75dp"
+                android:layout_height="45dp"/>
+            <RadioButton android:text="@string/normal"
+                android:layout_width="90dp"
+                android:layout_height="45dp"/>
+            <RadioButton android:text="@string/high"
+                android:layout_width="75dp"
+                android:layout_height="45dp"/>
+            <RadioButton android:text="@string/emergency"
+                android:layout_width="110dp"
+                android:layout_height="45dp"/>
+
+        </RadioGroup>
+
+        <!-- Photo -->
+        <Button
+            android:id="@+id/btnAddPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/add_photo"/>
+
+        <!-- Submit -->
+        <Button
+            android:id="@+id/btnSubmitRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_request"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+</ScrollView>

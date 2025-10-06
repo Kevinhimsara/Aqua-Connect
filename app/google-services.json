@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761326666883",
+    "project_id": "aqua-connect-e3324",
+    "storage_bucket": "aqua-connect-e3324.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761326666883:android:9f2d7ac5c0dd75058247b6",
+        "android_client_info": {
+          "package_name": "com.kevin.aquaconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhkzLCKwJmvdjqAA2958Ao17i1b-Ggf94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

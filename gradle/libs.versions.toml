@@ -1,0 +1,33 @@
+[versions]
+# Build Tools
+agp = "8.9.1"
+googleServices = "4.4.2"
+
+# Libraries
+androidx-appcompat = "1.7.1"
+material = "1.12.0"
+androidx-activity = "1.12.2"
+androidx-constraintlayout = "2.2.1"
+firebase-bom = "34.7.0"
+
+# Test
+junit = "4.13.2"
+androidx-test-ext-junit = "1.2.1"
+androidx-test-espresso-core = "3.6.1"
+
+[libraries]
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "androidx-activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
+# Using Firebase BoM (Bill of Materials) is the modern way to manage Firebase versions
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-test-espresso-core" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Aqua Connect</string>
+    <string name="request_service">Request Service</string>
+    <string name="request_history">Request History</string>
+    <string name="contacts">Contacts</string>
+    <string name="welcome_back_nkevin">Welcome back,\nKevin</string>
+    <string name="customer_dashboard">Customer Dashboard</string>
+    <string name="_0">0</string>
+    <string name="active_requests">Active Requests</string>
+    <string name="count2">0</string>
+    <string name="completed">Completed</string>
+    <string name="start">Start</string>
+    <string name="create_service_requests">Create Service Requests</string>
+    <string name="service_type">Service Type</string>
+    <string name="renovation">Renovation</string>
+    <string name="maintenance">Maintenance</string>
+    <string name="water_treatment">Water Treatment</string>
+    <string name="enter_your_property_address">Enter your property address</string>
+    <string name="urgency">Urgency</string>
+    <string name="low">Low</string>
+    <string name="normal">Normal</string>
+    <string name="high">High</string>
+    <string name="emergency">Emergency</string>
+    <string name="describe_the_service_you_need">Describe the service you need...</string>
+    <string name="submit_request">Submit Request</string>
+    <string name="add_photo">Add photo</string>
+</resources>
