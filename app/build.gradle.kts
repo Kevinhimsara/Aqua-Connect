@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.kevin.aquaconnect"
-    compileSdk = 35 // Support for Android 15
+    compileSdk = 36 // Support for Android 16
 
     defaultConfig {
         applicationId = "com.kevin.aquaconnect"
@@ -44,6 +44,7 @@ dependencies {
     // Firebase (Using BoM means you don't need to specify the database version here)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+    implementation(libs.play.services.location)
 
     // Testing
     testImplementation(libs.junit)

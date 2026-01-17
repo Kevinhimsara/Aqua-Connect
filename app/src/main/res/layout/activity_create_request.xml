@@ -53,6 +53,13 @@
         </RadioGroup>
 
         <!-- Description -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/description" />
+
         <EditText
             android:id="@+id/etDescription"
             android:layout_width="match_parent"
@@ -63,12 +70,20 @@
             android:inputType="textMultiLine"
             android:gravity="top"/>
 
-            <LinearLayout
+        <!-- Address -->
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/address" />
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-            <!-- Address -->
             <EditText
                 android:id="@+id/etAddress"
                 android:layout_width="300dp"
@@ -78,11 +93,16 @@
                 android:hint="@string/enter_your_property_address" />
 
             <!-- Urgency -->
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/locicon" />
+
+            <ImageView
+                android:id="@+id/btnOpenMaps"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/locicon"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless" />
 
             </LinearLayout>
 
@@ -113,7 +133,15 @@
 
         </RadioGroup>
 
-        <!-- Photo -->
+        <!-- Upload photo section -->
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/photos_optional"
+            android:layout_marginTop="16dp"/>
+
         <Button
             android:id="@+id/btnAddPhoto"
             android:layout_width="match_parent"

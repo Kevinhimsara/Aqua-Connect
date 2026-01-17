@@ -24,4 +24,7 @@
     <string name="describe_the_service_you_need">Describe the service you need...</string>
     <string name="submit_request">Submit Request</string>
     <string name="add_photo">Add photo</string>
+    <string name="photos_optional">Photos(Optional)</string>
+    <string name="description">Description</string>
+    <string name="address">Address</string>
 </resources>
