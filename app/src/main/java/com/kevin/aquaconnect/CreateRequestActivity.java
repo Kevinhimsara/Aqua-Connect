@@ -41,7 +41,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     private EditText etDescription, etAddress;
     private Button btnAddPhoto, btnSubmitRequest;
     private ImageView mapsButton;
-    private ImageButton ivLogout; // Declared here
+    private ImageButton ivLogout;
     private String userName;
 
     // Firebase & Location Variables
@@ -63,12 +63,13 @@ public class CreateRequestActivity extends AppCompatActivity {
         userName = getIntent().getStringExtra("USER_NAME");
 
         initViews();
+        setupClickListeners();
+
 
         String dbUrl = "https://aqua-connect-e3324-default-rtdb.firebaseio.com/";
         databaseReference = FirebaseDatabase.getInstance(dbUrl).getReference("service_requests");
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        setupClickListeners();
     }
 
     private void initViews() {
@@ -79,15 +80,13 @@ public class CreateRequestActivity extends AppCompatActivity {
         btnAddPhoto = findViewById(R.id.btnAddPhoto);
         btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
         mapsButton = findViewById(R.id.btnOpenMaps);
-        ivLogout = findViewById(R.id.ivLogout); // Initialized here
+        ivLogout = findViewById(R.id.ivLogout);
     }
 
     private void setupClickListeners() {
         mapsButton.setOnClickListener(v -> checkPermissionAndGetLocation());
         btnAddPhoto.setOnClickListener(this::onAddPhotoClicked);
         btnSubmitRequest.setOnClickListener(v -> submitServiceRequest());
-
-        // Correct placement for logout listener
         ivLogout.setOnClickListener(v -> finish());
     }
 

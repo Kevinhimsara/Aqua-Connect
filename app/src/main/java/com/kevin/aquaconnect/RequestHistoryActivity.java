@@ -2,6 +2,7 @@ package com.kevin.aquaconnect;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ public class RequestHistoryActivity extends AppCompatActivity {
     private RequestAdapter adapter;
     private List<ServiceRequest> requestList;
     private DatabaseReference databaseReference;
+    private ImageButton ivLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,17 @@ public class RequestHistoryActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance(dbUrl).getReference("service_requests");
 
         loadHistoryFromFirebase();
+        initViews();
+        setupClickListeners();
+
+    }
+
+    private void initViews() {
+        ivLogout = findViewById(R.id.ivLogout);
+    }
+
+    private void setupClickListeners() {
+        ivLogout.setOnClickListener(v -> finish());
     }
 
     private void loadHistoryFromFirebase() {
