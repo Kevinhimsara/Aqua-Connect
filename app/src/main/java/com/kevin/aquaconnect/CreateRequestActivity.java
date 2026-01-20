@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -40,6 +41,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     private EditText etDescription, etAddress;
     private Button btnAddPhoto, btnSubmitRequest;
     private ImageView mapsButton;
+    private ImageButton ivLogout; // Declared here
     private String userName;
 
     // Firebase & Location Variables
@@ -50,11 +52,8 @@ public class CreateRequestActivity extends AppCompatActivity {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
-    //Image Uploading
+    // Image Uploading
     private Uri imageUri;
-    private String uploadedImageUrl = "";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,22 +79,22 @@ public class CreateRequestActivity extends AppCompatActivity {
         btnAddPhoto = findViewById(R.id.btnAddPhoto);
         btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
         mapsButton = findViewById(R.id.btnOpenMaps);
+        ivLogout = findViewById(R.id.ivLogout); // Initialized here
     }
 
     private void setupClickListeners() {
-        // Option 1: User clicks the icon to AUTO-FILL location via GPS
         mapsButton.setOnClickListener(v -> checkPermissionAndGetLocation());
-
-        // Option 2: Regular button clicks
         btnAddPhoto.setOnClickListener(this::onAddPhotoClicked);
         btnSubmitRequest.setOnClickListener(v -> submitServiceRequest());
+
+        // Correct placement for logout listener
+        ivLogout.setOnClickListener(v -> finish());
     }
 
     // --- LOCATION LOGIC ---
 
     private void checkPermissionAndGetLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission (100 is just a request code)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         } else {
             getCurrentLocation();
@@ -104,11 +103,9 @@ public class CreateRequestActivity extends AppCompatActivity {
 
     private void getCurrentLocation() {
         Toast.makeText(this, "Detecting your location...", Toast.LENGTH_SHORT).show();
-
         try {
             fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
                 if (location != null) {
-                    // Convert GPS coordinates to Address String in background
                     fetchAddressFromCoords(location.getLatitude(), location.getLongitude());
                 } else {
                     Toast.makeText(this, "Please ensure GPS is turned on.", Toast.LENGTH_SHORT).show();
@@ -126,15 +123,13 @@ public class CreateRequestActivity extends AppCompatActivity {
                 List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
                 if (addresses != null && !addresses.isEmpty()) {
                     String finalAddress = addresses.get(0).getAddressLine(0);
-
-                    // Update UI on Main Thread
                     mainThreadHandler.post(() -> {
                         etAddress.setText(finalAddress);
                         Toast.makeText(this, "Address updated!", Toast.LENGTH_SHORT).show();
                     });
                 }
             } catch (IOException e) {
-                mainThreadHandler.post(() -> Toast.makeText(this, "Network error fetching address.", Toast.LENGTH_SHORT).show());
+                mainThreadHandler.post(() -> Toast.makeText(this, "Network error.", Toast.LENGTH_SHORT).show());
             }
         });
     }
@@ -143,7 +138,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         String description = etDescription.getText().toString().trim();
         String address = etAddress.getText().toString().trim();
 
-        // 1. Validation
         if (TextUtils.isEmpty(description)) {
             etDescription.setError("Description is required.");
             return;
@@ -153,7 +147,6 @@ public class CreateRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // 2. Get Service Type String
         int selectedServiceTypeId = rgServiceType.getCheckedRadioButtonId();
         if (selectedServiceTypeId == -1) {
             Toast.makeText(this, "Select a service type.", Toast.LENGTH_SHORT).show();
@@ -162,7 +155,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         RadioButton serviceTypeRadioButton = findViewById(selectedServiceTypeId);
         String serviceType = serviceTypeRadioButton.getText().toString();
 
-        // 3. Get Urgency String
         int selectedUrgencyId = rgUrgency.getCheckedRadioButtonId();
         if (selectedUrgencyId == -1) {
             Toast.makeText(this, "Select urgency level.", Toast.LENGTH_SHORT).show();
@@ -171,20 +163,17 @@ public class CreateRequestActivity extends AppCompatActivity {
         RadioButton urgencyRadioButton = findViewById(selectedUrgencyId);
         String urgency = urgencyRadioButton.getText().toString();
 
-        // 4. Push to Firebase
         String requestId = databaseReference.push().getKey();
         if (requestId == null) return;
 
-        // Set default status so the dashboard can count it
         String status = "Pending";
 
-        // IMPORTANT: 'userName' must be the global variable we retrieved in onCreate
         ServiceRequest request = new ServiceRequest(requestId, userName, serviceType, description, address, urgency, status);
 
         databaseReference.child(requestId).setValue(request)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Request submitted successfully!", Toast.LENGTH_LONG).show();
-                    finish(); // This closes this screen and goes back to the Dashboard
+                    Toast.makeText(this, "Submitted successfully!", Toast.LENGTH_LONG).show();
+                    finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
@@ -194,8 +183,6 @@ public class CreateRequestActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
-        } else {
-            Toast.makeText(this, "Location permission is required to auto-select.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -211,9 +198,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            // Show the user they selected something
             Toast.makeText(this, "Photo Selected!", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
