@@ -33,8 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textColor="#7B1FA2"
-            android:textStyle="italic" />
+            android:textColor="#7B1FA2"/>
 
         <TextView
             android:id="@+id/tvHistoryStatus"
@@ -46,7 +45,7 @@
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
             android:background="#EEEEEE"
-            android:text="Status: Pending"
+            android:text="@string/status_pending"
             android:textColor="#333333"
             android:textSize="12sp"
             android:textStyle="bold" />

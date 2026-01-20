@@ -29,6 +29,7 @@
         <activity android:name=".CustomerDashboardActivity" />
         <activity android:name=".CreateRequestActivity" />
         <activity android:name=".RequestHistoryActivity" />
+        <activity android:name=".ContactsActivity" />
 
     </application>
 

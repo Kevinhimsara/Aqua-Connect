@@ -17,10 +17,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 public class CustomerDashboardActivity extends AppCompatActivity {
 
-    private Button btnRequestService, btnRequestHistory, btnContacts;
-    private TextView tvActiveCount, tvCompletedCount;
+    private ConstraintLayout btnRequestService, btnRequestHistory, btnContacts;
+    private TextView tvActiveCount, tvCompletedCount, tvWelcome;
     private String loggedInUsername;
 
     @Override
@@ -33,14 +35,18 @@ public class CustomerDashboardActivity extends AppCompatActivity {
         btnRequestService = findViewById(R.id.btnRequestService);
         btnRequestHistory = findViewById(R.id.btnRequestHistory);
         btnContacts = findViewById(R.id.btnContacts);
-        tvActiveCount = findViewById(R.id.tvActiveRequests);
-        tvCompletedCount = findViewById(R.id.tvCompletedRequests);
+        tvActiveCount = findViewById(R.id.tvActiveCount);
+        tvCompletedCount = findViewById(R.id.tvCompletedCount);
+        tvWelcome = findViewById(R.id.tvWelcome);
 
         // TEMPORARY: Hardcode a name that exists in your Firebase to test
         // Once the login part is done, change this back to:
         // loggedInUsername = getIntent().getStringExtra("USER_NAME");
         loggedInUsername = "kevin123";
 
+        tvWelcome.setText(loggedInUsername);
+
+        updateDashboardStats(loggedInUsername);
 
         // 3. Set Button Listeners
         btnRequestService.setOnClickListener(v -> {
@@ -52,6 +58,12 @@ public class CustomerDashboardActivity extends AppCompatActivity {
 
         btnRequestHistory.setOnClickListener(v -> {
             Intent intent = new Intent(CustomerDashboardActivity.this, RequestHistoryActivity.class);
+            intent.putExtra("USER_NAME", loggedInUsername);
+            startActivity(intent);
+        });
+
+        btnContacts.setOnClickListener(v -> {
+            Intent intent = new Intent(CustomerDashboardActivity.this, ContactsActivity.class);
             intent.putExtra("USER_NAME", loggedInUsername);
             startActivity(intent);
         });
