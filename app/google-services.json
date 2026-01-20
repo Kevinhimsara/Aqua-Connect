@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398614934393",
+    "project_id": "aqua-connect-walp01",
+    "storage_bucket": "aqua-connect-walp01.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398614934393:android:520c8df8e0a99712d7b5a8",
+        "android_client_info": {
+          "package_name": "com.walp_1.aquaconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcZE_0oh_szEZlTyoiE_fmZOvK0yrsMCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
