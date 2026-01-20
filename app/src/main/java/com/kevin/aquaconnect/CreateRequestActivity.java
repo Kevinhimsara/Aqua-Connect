@@ -40,6 +40,7 @@ public class CreateRequestActivity extends AppCompatActivity {
     private EditText etDescription, etAddress;
     private Button btnAddPhoto, btnSubmitRequest;
     private ImageView mapsButton;
+    private String userName;
 
     // Firebase & Location Variables
     private DatabaseReference databaseReference;
@@ -49,17 +50,25 @@ public class CreateRequestActivity extends AppCompatActivity {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
+    //Image Uploading
+    private Uri imageUri;
+    private String uploadedImageUrl = "";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_request);
 
+        userName = getIntent().getStringExtra("USER_NAME");
+
         initViews();
 
-        // Initialize Firebase and Location Client
-        databaseReference = FirebaseDatabase.getInstance().getReference("service_requests");
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        String dbUrl = "https://aqua-connect-e3324-default-rtdb.firebaseio.com/";
+        databaseReference = FirebaseDatabase.getInstance(dbUrl).getReference("service_requests");
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setupClickListeners();
     }
 
@@ -130,13 +139,11 @@ public class CreateRequestActivity extends AppCompatActivity {
         });
     }
 
-    // --- SUBMISSION LOGIC ---
-
     private void submitServiceRequest() {
         String description = etDescription.getText().toString().trim();
         String address = etAddress.getText().toString().trim();
 
-        // Validation
+        // 1. Validation
         if (TextUtils.isEmpty(description)) {
             etDescription.setError("Description is required.");
             return;
@@ -146,7 +153,7 @@ public class CreateRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // Get Service Type String
+        // 2. Get Service Type String
         int selectedServiceTypeId = rgServiceType.getCheckedRadioButtonId();
         if (selectedServiceTypeId == -1) {
             Toast.makeText(this, "Select a service type.", Toast.LENGTH_SHORT).show();
@@ -155,7 +162,7 @@ public class CreateRequestActivity extends AppCompatActivity {
         RadioButton serviceTypeRadioButton = findViewById(selectedServiceTypeId);
         String serviceType = serviceTypeRadioButton.getText().toString();
 
-        // Get Urgency String
+        // 3. Get Urgency String
         int selectedUrgencyId = rgUrgency.getCheckedRadioButtonId();
         if (selectedUrgencyId == -1) {
             Toast.makeText(this, "Select urgency level.", Toast.LENGTH_SHORT).show();
@@ -164,16 +171,20 @@ public class CreateRequestActivity extends AppCompatActivity {
         RadioButton urgencyRadioButton = findViewById(selectedUrgencyId);
         String urgency = urgencyRadioButton.getText().toString();
 
-        // Push to Firebase
+        // 4. Push to Firebase
         String requestId = databaseReference.push().getKey();
         if (requestId == null) return;
 
-        ServiceRequest request = new ServiceRequest(requestId, serviceType, description, address, urgency);
+        // Set default status so the dashboard can count it
+        String status = "Pending";
+
+        // IMPORTANT: 'userName' must be the global variable we retrieved in onCreate
+        ServiceRequest request = new ServiceRequest(requestId, userName, serviceType, description, address, urgency, status);
 
         databaseReference.child(requestId).setValue(request)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Request submitted successfully!", Toast.LENGTH_LONG).show();
-                    finish();
+                    finish(); // This closes this screen and goes back to the Dashboard
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
@@ -189,6 +200,20 @@ public class CreateRequestActivity extends AppCompatActivity {
     }
 
     private void onAddPhotoClicked(View v) {
-        Toast.makeText(this, "Photo upload feature coming soon.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 101);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            // Show the user they selected something
+            Toast.makeText(this, "Photo Selected!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
